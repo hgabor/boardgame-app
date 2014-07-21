@@ -1,20 +1,32 @@
 package hu.level14.boardgameapp;
 
+import hu.level14.boardgameapp.remote.GameServer;
+import hu.level14.boardgameapp.remote.Session;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
+import android.R.string;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.os.Build;
 
 
 
 public class MainActivity extends ActionBarActivity {
 
+    public void onConnectButtonClick(View v) {
+        String serverAddress = ((EditText)findViewById(R.id.edit_server_address)).getText().toString();
+        String nickName = ((EditText)findViewById(R.id.edit_nick)).getText().toString();
+        
+        Session session = GameServer.NewSession(serverAddress, nickName);
+    }
+    
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

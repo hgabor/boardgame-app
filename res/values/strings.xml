@@ -9,6 +9,6 @@
     <string name="connect">Connect</string>
     <string name="remember_me">Remember server and nick</string>
     
-    <string name="default_server">192.168.1.104:8080</string>
+    <string name="default_server">http://192.168.1.104:8080</string>
 
 </resources>

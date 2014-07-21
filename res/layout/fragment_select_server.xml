@@ -30,7 +30,7 @@
         android:text="@string/nick" />
         
     <EditText 
-        android:id="@+id/nick"
+        android:id="@+id/edit_nick"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:inputType="textUri"
@@ -46,5 +46,6 @@
     <Button 
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
+        android:onClick="onConnectButtonClick"
         android:text="@string/connect"/>
 </LinearLayout>
