@@ -1,11 +1,14 @@
 package hu.level14.boardgameapp;
 
+import java.util.List;
+
 import hu.level14.boardgameapp.remote.GameServer;
 import hu.level14.boardgameapp.remote.Session;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.R.string;
+import android.app.ListFragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,12 +21,21 @@ import android.os.Build;
 
 
 public class MainActivity extends ActionBarActivity {
-
+    Session session;
+    
     public void onConnectButtonClick(View v) {
         String serverAddress = ((EditText)findViewById(R.id.edit_server_address)).getText().toString();
         String nickName = ((EditText)findViewById(R.id.edit_nick)).getText().toString();
         
-        Session session = GameServer.NewSession(serverAddress, nickName);
+        session = GameServer.NewSession(serverAddress, nickName);
+        
+        changeFragment(new StatelessFragment(R.layout.fragment_lobby));
+    }
+    
+    public void onNewGameButtonClick(View v) {
+        List<String> games = session.queryGameTypes();
+        
+        changeFragment(new StatelessFragment(R.layout.fragment_game_types));
     }
     
     
@@ -33,9 +45,16 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new SelectServerFragment())
+                    .add(R.id.container, new StatelessFragment(R.layout.fragment_select_server))
                     .commit();
         }
+    }
+
+    private void changeFragment(Fragment f) {
+        getSupportFragmentManager().beginTransaction()
+            .replace(R.id.container, f)
+            .addToBackStack(null)
+            .commit();
     }
 
 
@@ -56,21 +75,5 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class SelectServerFragment extends Fragment {
-
-        public SelectServerFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_select_server, container, false);
-            return rootView;
-        }
     }
 }
