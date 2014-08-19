@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-class StatelessFragment extends Fragment {
+class StatelessFragment extends Fragment implements XmlClickable {
     int layoutId;
     
     public StatelessFragment(int layoutId) {
@@ -18,5 +18,10 @@ class StatelessFragment extends Fragment {
             Bundle savedInstanceState) {
         View rootView = inflater.inflate(this.layoutId, container, false);
         return rootView;
+    }
+
+    @Override
+    public void onClick(View source) {
+        // By default, do nothing
     }
 }

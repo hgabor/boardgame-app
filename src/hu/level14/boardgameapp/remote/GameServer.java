@@ -52,4 +52,16 @@ public class GameServer {
         }
     }
     
+    RequestTask DoRequestAsync(String query, Map<String, Object> data) {
+        RequestTask task;
+        if (data == null) {
+            task = new RequestTask(baseAddress + query, null);
+        }
+        else {
+            task = new RequestTask(baseAddress + query, new JSONObject(data));
+        }
+        task.execute();
+        return task;
+    }
+    
 }

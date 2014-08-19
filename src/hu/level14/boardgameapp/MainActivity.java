@@ -33,9 +33,7 @@ public class MainActivity extends ActionBarActivity {
     }
     
     public void onNewGameButtonClick(View v) {
-        List<String> games = session.queryGameTypes();
-        
-        changeFragment(new StatelessFragment(R.layout.fragment_game_types));
+        changeFragment(new GameTypesFragment(session));
     }
     
     
@@ -50,6 +48,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    private XmlClickable currentClickHandler;
     private void changeFragment(Fragment f) {
         getSupportFragmentManager().beginTransaction()
             .replace(R.id.container, f)
