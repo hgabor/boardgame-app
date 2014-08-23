@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity {
 
     private XmlClickable currentClickHandler;
 
-    private void changeFragment(Fragment f) {
+    void changeFragment(Fragment f) {
         hideSoftKeyboard();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.container, f).addToBackStack(null).commit();

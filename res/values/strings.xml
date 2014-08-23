@@ -9,6 +9,7 @@
     <string name="nick">Your nickname:</string>
     <string name="remember_me">Remember server and nick</string>
     <string name="server_address">Server address:</string>
+    <string name="waiting_for_players">Waiting for players…</string>
     
     <string name="default_server">http://192.168.1.101:8080</string>
 
