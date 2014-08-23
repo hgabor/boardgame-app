@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 
 class StatelessFragment extends Fragment implements XmlClickable {
     int layoutId;
-    
+
     public StatelessFragment(int layoutId) {
         this.layoutId = layoutId;
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {

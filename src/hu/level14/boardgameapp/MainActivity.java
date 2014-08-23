@@ -1,61 +1,53 @@
 package hu.level14.boardgameapp;
 
-import java.util.List;
-
 import hu.level14.boardgameapp.remote.GameServer;
 import hu.level14.boardgameapp.remote.Session;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
-import android.R.string;
-import android.app.ListFragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
-import android.os.Build;
-
-
 
 public class MainActivity extends ActionBarActivity {
     Session session;
-    
+
     public void onConnectButtonClick(View v) {
-        String serverAddress = ((EditText)findViewById(R.id.edit_server_address)).getText().toString();
-        String nickName = ((EditText)findViewById(R.id.edit_nick)).getText().toString();
-        
+        String serverAddress = ((EditText) findViewById(R.id.edit_server_address))
+                .getText().toString();
+        String nickName = ((EditText) findViewById(R.id.edit_nick)).getText()
+                .toString();
+
         session = GameServer.NewSession(serverAddress, nickName);
-        
+
         changeFragment(new StatelessFragment(R.layout.fragment_lobby));
     }
-    
+
     public void onNewGameButtonClick(View v) {
         changeFragment(new GameTypesFragment(session));
     }
-    
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new StatelessFragment(R.layout.fragment_select_server))
-                    .commit();
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.container,
+                            new StatelessFragment(
+                                    R.layout.fragment_select_server)).commit();
         }
     }
 
     private XmlClickable currentClickHandler;
+
     private void changeFragment(Fragment f) {
         hideSoftKeyboard();
         getSupportFragmentManager().beginTransaction()
-            .replace(R.id.container, f)
-            .addToBackStack(null)
-            .commit();
+                .replace(R.id.container, f).addToBackStack(null).commit();
     }
 
     private void hideSoftKeyboard() {

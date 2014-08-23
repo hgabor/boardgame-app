@@ -9,5 +9,5 @@ class StatefulFragment extends StatelessFragment {
         super(layoutId);
         this.session = session;
     }
-    
+
 }
