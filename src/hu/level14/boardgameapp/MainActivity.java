@@ -1,10 +1,15 @@
 package hu.level14.boardgameapp;
 
+import java.lang.ref.WeakReference;
+
 import hu.level14.boardgameapp.remote.GameServer;
 import hu.level14.boardgameapp.remote.Session;
+import hu.level14.boardgameapp.remote.SocketListener;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,6 +17,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
 public class MainActivity extends ActionBarActivity {
+    
     Session session;
 
     public void onConnectButtonClick(View v) {
@@ -21,6 +27,8 @@ public class MainActivity extends ActionBarActivity {
                 .toString();
 
         session = GameServer.NewSession(serverAddress, nickName);
+        
+        SocketListener.startListening(session, handler);
 
         changeFragment(new StatelessFragment(R.layout.fragment_lobby));
     }
@@ -75,5 +83,30 @@ public class MainActivity extends ActionBarActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    private void handleMessage(Message msg) {
+        
+    }
+    
+    private static class MainHandler extends Handler {
+        private WeakReference<MainActivity> activity;
+        
+        public MainHandler(MainActivity activity) {
+            this.activity = new WeakReference<MainActivity>(activity);
+        }
+        
+        @Override
+        public void handleMessage(Message msg) {
+            MainActivity a = activity.get();
+            if (a != null) {
+                a.handleMessage(msg);
+            }
+        }
+    }
+    
+    private final MainHandler handler = new MainHandler(this);
+    public Handler getHandler() {
+        return handler;
     }
 }

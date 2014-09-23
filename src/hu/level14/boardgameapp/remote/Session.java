@@ -13,11 +13,15 @@ public class Session {
     private final GameServer server;
     private final String nick;
     private final String key;
+    private final String address;
+    private final int socketPort;
     
-    Session(GameServer server, String nick, String key) {
+    Session(GameServer server, String nick, String key,  String address, int socketPort) {
         this.server = server;
         this.nick = nick;
         this.key = key;
+        this.address = address;
+        this.socketPort = socketPort;
     }
 
     public String getNick() {
@@ -25,6 +29,12 @@ public class Session {
     }
     public String getKey() {
         return key;
+    }
+    public int getSocketPort() {
+        return socketPort;
+    }
+    public String getAddress() {
+        return address;
     }
     
     public List<String> queryGameTypes() {

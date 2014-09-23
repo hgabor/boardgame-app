@@ -3,6 +3,8 @@ package hu.level14.boardgameapp.remote;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONObject;
@@ -12,7 +14,7 @@ import android.text.TextUtils;
 import android.util.AndroidException;
 
 public class GameServer {
-    private String baseAddress;
+    private final String baseAddress;
     
     private GameServer(String address) {
         this.baseAddress = address;
@@ -28,8 +30,18 @@ public class GameServer {
         if (TextUtils.isEmpty(key)) {
             throw new RuntimeException("No key returned");
         }
+        String portString = obj.optString("SocketPort");
+        int port = Integer.parseInt(portString);
         
-        return new Session(s, nick, key);
+        Pattern p = Pattern.compile("http://([^:]+)(:.+)?");
+        Matcher m = p.matcher(address);
+        
+        if (!m.matches()) {
+            throw new RuntimeException("Invalid address (for now): " + address);
+        }
+        String rawAddress = m.group(1);
+        
+        return new Session(s, nick, key, rawAddress, port);
     }
     
     Object DoRequest(String query, Map<String, Object> data) {
